@@ -48,9 +48,8 @@ class ActivityLogMiddleware:
             the_record.delete()
             return
 
-        the_record.response_code = response.status_code,
-        the_record.extra_data = get_extra_data(request, response, getattr(request, 'saved_body', '')),
-        # the_record.request_vars = json.dumps(request.REQUEST.__dict__),
+        the_record.response_code = response.status_code
+        the_record.extra_data = get_extra_data(request, response, getattr(request, 'saved_body', ''))
         the_record.save()
 
         return response

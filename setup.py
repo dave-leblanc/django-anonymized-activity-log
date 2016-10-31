@@ -17,7 +17,7 @@ Based largely on: https://github.com/scailer/django-user-activity-log
 
 setup(
     name='django-anonymized-activity-log',
-    version='0.0.17',
+    version='0.0.18',
     author='Dave LeBlanc',
     author_email='iam@daveleblanc.tech',
 

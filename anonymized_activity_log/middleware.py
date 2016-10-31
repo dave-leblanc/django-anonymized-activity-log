@@ -100,21 +100,10 @@ class ActivityLogMiddleware:
         request.META['activity_log_id'] = activity_log.pk
 
     def _get_log(self, request):
-        if request.user.is_authenticated():
-            return ActivityLog.objects.get(
-                session_id=request.session.session_key,
-                request_user=request.user,
-                request_path=request.path,
-                request_method=request.method,
-                request_secure=request.is_secure(),
-                request_ajax=request.is_ajax(),
-                request_meta=request.META.__str__()
-            )
-        else:
-            try:
-                return ActivityLog.objects.get(pk=request.META['activity_log_id'])
-            except ObjectDoesNotExist:
-                return None
+        try:
+            return ActivityLog.objects.get(pk=request.META['activity_log_id'])
+        except ObjectDoesNotExist:
+            return None
 
     def process_view(self, request, view_func, view_args, view_kwargs):
         # Fix the issue with the authorization request

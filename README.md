@@ -65,6 +65,9 @@ ACTIVITYLOG_STATUSES = (200, )
 
 # URL substrings, which ignores
 ACTIVITYLOG_EXCLUDE_URLS = ('/admin/activity_log/activitylog', )
+
+# any Python method that accepts (request, response, body)
+ACTIVITYLOG_GET_EXTRA_DATA = 'testapp.models.make_extra_data'
 ```
 
 $ python manage.py migrate & python manage.py migrate --database=logs

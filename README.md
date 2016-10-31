@@ -66,7 +66,7 @@ ACTIVITYLOG_STATUSES = (200, )
 # URL substrings, which ignores
 ACTIVITYLOG_EXCLUDE_URLS = ('/admin/activity_log/activitylog', )
 
-# any Python method that accepts (request, response, body)
+# any Python method that accepts (request, response, body) and returns a stringified dictionary ie: json.dumps({"extra":"data"}) 
 ACTIVITYLOG_GET_EXTRA_DATA = 'testapp.models.make_extra_data'
 ```
 

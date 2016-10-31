@@ -12,7 +12,7 @@ Based largely on: https://github.com/scailer/django-user-activity-log
 
 Install:
 
-$ pip install django-anonymous-activity-log
+$ pip install django-anonymized-activity-log
 
 settings.py:
 

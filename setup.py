@@ -16,8 +16,8 @@ Based largely on: https://github.com/scailer/django-user-activity-log
 """
 
 setup(
-    name='django-user-activity-log',
-    version='0.0.15',
+    name='django-anonymized-activity-log',
+    version='0.0.16',
     author='Dave LeBlanc',
     author_email='iam@daveleblanc.tech',
 
@@ -27,7 +27,7 @@ setup(
         'anonymized_activity_log.migrations',
     ],
 
-    url='https://github.com/dave-leblanc/django-anonymous-activity-log',
+    url='https://github.com/dave-leblanc/django-anonymized-activity-log',
     license='MIT license',
     description='Anonymous HTTP logging.',
     long_description=DESCRIPTION,

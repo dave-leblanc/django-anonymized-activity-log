@@ -12,12 +12,11 @@ from django.db import connection
 from django.core.management import call_command
 from django.conf import settings
 from django.db.utils import ProgrammingError
-
 from . import conf
 
-
+User = settings.AUTH_USER_MODEL
 if conf.AUTOCREATE_DB:
-    @receiver(pre_migrate, sender=apps.get_app_config('activity_log'))
+    @receiver(pre_migrate, sender=apps.get_app_config('anonymized_activity_log'))
     def createdb(sender, using, **kwargs):
         db = settings.DATABASES[conf.LOG_DB_KEY]['NAME']
         with connection.cursor() as cursor:
@@ -31,7 +30,6 @@ if conf.AUTOCREATE_DB:
 
 
 class ActivityLog(models.Model):
-    user_id = models.IntegerField(_('user id '))
     user = models.CharField(_('user'), max_length=256)
     request_url = models.CharField(_('url'), max_length=256)
     request_method = models.CharField(_('http method'), max_length=10)
@@ -41,17 +39,18 @@ class ActivityLog(models.Model):
     ip_address = models.GenericIPAddressField(
         _('user IP'), null=True, blank=True)
 
+    session_id = models.CharField(max_length=256,null=True)
+    request_path = models.TextField()
+    request_query_string = models.TextField()
+    request_vars = models.TextField()
+
+    request_secure = models.BooleanField(default=False)
+    request_ajax = models.BooleanField(default=False)
+    request_meta = models.TextField(null=True, blank=True)
+
+    view_function = models.CharField(max_length=256)
+    view_doc_string = models.TextField(null=True, blank=True)
+    view_args = models.TextField()
+
     class Meta:
         verbose_name = _('activity log')
-
-
-class UserMixin(models.Model):
-    last_activity = models.DateTimeField(
-        _('last activity'), default=timezone.now, editable=False)
-
-    def update_last_activity(self):
-        self.last_activity = timezone.now()
-        self.save(update_fields=["last_activity"])
-
-    class Meta:
-        abstract = True

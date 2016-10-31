@@ -1,14 +1,18 @@
-This django app intended for writing HTTP log to database and/or watch last user activity.
+This django app intended for writing highly detailed anonymized HTTP logs to database
 
 Features:
 - DB router for writing logs to another database.
+- support for processing of Extra data into logs
 - Filters for ignoring some queries by URL, HTTP methods and response codes.
 - Saving anonymous activity as fake user.
 - Autocreation log DB (for postgresql)
 
+Based largely on: https://github.com/scailer/django-user-activity-log
+
+
 Install:
 
-$ pip install django-user-activity-log
+$ pip install django-anonymous-activity-log
 
 settings.py:
 
@@ -16,18 +20,18 @@ settings.py:
 ```python
 INSTALLED_APPS = (
     ...
-    'activity_log',
+    'anonymized_activity_log',
 )
 
 MIDDLEWARE_CLASSES = (
     ...
-    'activity_log.middleware.ActivityLogMiddleware',
+    'anonymized_activity_log.middleware.ActivityLogMiddleware',
 )
 
 # For writing log to another DB
 
-DATABASE_ROUTERS = ['activity_log.router.DatabaseAppsRouter']
-DATABASE_APPS_MAPPING = {'activity_log': 'logs'}
+DATABASE_ROUTERS = ['anonymized_activity_log.router.DatabaseAppsRouter']
+DATABASE_APPS_MAPPING = {'anonymized_activity_log': 'logs'}
 
 # If you set up DATABASE_APPS_MAPPING, but don't set related value in
 # DATABASES, it will created automatically using "default" DB settings
@@ -46,11 +50,8 @@ ACTIVITYLOG_AUTOCREATE_DB = False
 
 # App settings
 
-# Log anonimus actions?
-ACTIVITYLOG_ANONIMOUS = True
-
-# Update last activity datetime in user profile. Needs updates for user model.
-ACTIVITYLOG_LAST_ACTIVITY = True
+# Log actions by non-logged in users?
+ACTIVITYLOG_ANONYMOUS = True
 
 # Only this methods will be logged
 ACTIVITYLOG_METHODS = ('POST', 'GET')
@@ -64,17 +65,6 @@ ACTIVITYLOG_STATUSES = (200, )
 
 # URL substrings, which ignores
 ACTIVITYLOG_EXCLUDE_URLS = ('/admin/activity_log/activitylog', )
-```
-
-account/models.py:
-
-```python
-from django.contrib.auth.models import AbstractUser
-from activity_log.models import UserMixin
-
-# Only for LAST_ACTIVITY = True
-class User(AbstractUser, UserMixin):
-    pass
 ```
 
 $ python manage.py migrate & python manage.py migrate --database=logs

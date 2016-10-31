@@ -3,32 +3,33 @@
 from setuptools import setup
 
 DESCRIPTION = """
-This django app intended for writing HTTP log to database
-and/or watch last user activity.
+This django app intended for writing highly detailed anonymized HTTP logs to database
 
 Features:
   - DB router for writing logs to another database.
   - Filters for ignoring some queries by URL, HTTP methods and response codes.
   - Saving anonymous activity as fake user.
 
-More: https://github.com/scailer/django-user-activity-log
+More: https://github.com/dave-leblanc/django-anonymous-activity-log
+
+Based largely on: https://github.com/scailer/django-user-activity-log
 """
 
 setup(
     name='django-user-activity-log',
     version='0.0.15',
-    author='Dmitriy Vlasov',
-    author_email='scailer@russia.ru',
+    author='Dave LeBlanc',
+    author_email='iam@daveleblanc.tech',
 
     include_package_data=True,
     packages=[
-        'activity_log',
-        'activity_log.migrations',
+        'anonymized_activity_log',
+        'anonymized_activity_log.migrations',
     ],
 
-    url='https://github.com/scailer/django-user-activity-log/',
+    url='https://github.com/dave-leblanc/django-anonymous-activity-log',
     license='MIT license',
-    description='HTTP queries logger with flexible filters.',
+    description='Anonymous HTTP logging.',
     long_description=DESCRIPTION,
 
     install_requires=[
@@ -44,6 +45,8 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ),
 )

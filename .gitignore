@@ -15,6 +15,9 @@ downloads/
 eggs/
 .eggs/
 lib/
+bin/
+include/
+share/
 lib64/
 parts/
 sdist/
@@ -59,3 +62,6 @@ target/
 
 *.sqlite3
 *.swp
+
+#IDE Files
+.idea

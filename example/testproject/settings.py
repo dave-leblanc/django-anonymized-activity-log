@@ -14,8 +14,6 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-AUTH_USER_MODEL = 'testapp.User'
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -38,7 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'activity_log',  # LOG
+    'anonymized_activity_log',  # LOG
     'testapp',
 )
 
@@ -51,7 +49,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'activity_log.middleware.ActivityLogMiddleware',  # LOG
+    'anonymized_activity_log.middleware.ActivityLogMiddleware',  # LOG
 )
 
 ROOT_URLCONF = 'testproject.urls'
@@ -90,8 +88,8 @@ DATABASES = {
     }
 }
 
-DATABASE_ROUTERS = ['activity_log.router.DatabaseAppsRouter']  # LOG
-DATABASE_APPS_MAPPING = {'activity_log': 'logs'}  # LOG
+DATABASE_ROUTERS = ['anonymized_activity_log.router.DatabaseAppsRouter']  # LOG
+DATABASE_APPS_MAPPING = {'anonymized_activity_log': 'logs'}  # LOG
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -113,8 +111,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # LOG
-ACTIVITYLOG_EXCLUDE_URLS = ('/admin/activity_log/activitylog', )
+ACTIVITYLOG_EXCLUDE_URLS = ('/admin/anonymized_activity_log/activitylog', )
 ACTIVITYLOG_EXCLUDE_STATUSES = (302, )
 ACTIVITYLOG_METHODS = ('POST', 'GET')
-ACTIVITYLOG_LAST_ACTIVITY = True
 ACTIVITYLOG_GET_EXTRA_DATA = 'testapp.models.make_extra_data'

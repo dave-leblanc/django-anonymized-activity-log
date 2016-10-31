@@ -5,11 +5,8 @@ from __future__ import unicode_literals
 from django.conf import settings
 
 
-# Log anonimus actions?
-ANONIMOUS = getattr(settings, 'ACTIVITYLOG_ANONIMOUS', True)
-
-# Update last activity datetime in user profile
-LAST_ACTIVITY = getattr(settings, 'ACTIVITYLOG_LAST_ACTIVITY', True)
+# Log anonymous actions?
+ANONYMOUS = getattr(settings, 'ACTIVITYLOG_ANONYMOUS', True)
 
 # Only this methods will be logged
 METHODS = getattr(settings, 'ACTIVITYLOG_METHODS',
@@ -38,7 +35,7 @@ IP_ADDRESS_HEADERS = ('HTTP_X_REAL_IP', 'HTTP_CLIENT_IP',
 GET_EXTRA_DATA = getattr(settings, 'ACTIVITYLOG_GET_EXTRA_DATA', None)
 
 # Log DB key in DATABASES (for internal usage only, don't modify)
-LOG_DB_KEY = getattr(settings, 'DATABASE_APPS_MAPPING', {}).get('activity_log')
+LOG_DB_KEY = getattr(settings, 'DATABASE_APPS_MAPPING', {}).get('anonymized_activity_log')
 
 if LOG_DB_KEY and not settings.DATABASES.get(LOG_DB_KEY):
     db = settings.DATABASES['default'].copy()

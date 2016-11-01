@@ -35,11 +35,11 @@ class ActivityLog(models.Model):
     request_method = models.CharField(_('http method'), max_length=10)
     response_code = models.CharField(_('response code'), max_length=3)
     datetime = models.DateTimeField(_('datetime'), default=timezone.now)
-    extra_data = JSONField(_('extra data'), blank=True, null=True)
+    extra_data = JSONField(_('extra data'), blank=True, null=True)  # TODO find a way to remove dependency on psycopg2
     ip_address = models.GenericIPAddressField(
         _('user IP'), null=True, blank=True)
 
-    session_id = models.CharField(max_length=256,null=True)
+    session_id = models.CharField(max_length=256, null=True)
     request_path = models.TextField()
     request_query_string = models.TextField()
     request_vars = models.TextField()

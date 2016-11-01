@@ -41,3 +41,7 @@ if LOG_DB_KEY and not settings.DATABASES.get(LOG_DB_KEY):
     db = settings.DATABASES['default'].copy()
     db['NAME'] = '{}_{}'.format(db['NAME'], LOG_DB_KEY)
     settings.DATABASES[LOG_DB_KEY] = db
+
+
+ANONYMIZATION_FUNCTION = getattr(settings, 'ACTIVITYLOG_ANONYMIZATION_FUNCTION', 'anonymized_activity_log.anonymization.anonymize_user')
+ENCRYPTION_FUNCTION = getattr(settings, 'ACTIVITYLOG_ENCRYPTION_FUNCTION', 'anonymized_activity_log.crypto.md5_hexdigest')

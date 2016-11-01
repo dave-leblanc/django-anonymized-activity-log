@@ -8,6 +8,7 @@ Features:
 - Autocreation log DB (for postgresql)
 
 Based largely on: https://github.com/scailer/django-user-activity-log
+and additional inspirations from: https://djangosnippets.org/snippets/2325/
 
 
 Install:
@@ -68,6 +69,12 @@ ACTIVITYLOG_EXCLUDE_URLS = ('/admin/activity_log/activitylog', )
 
 # any Python method that accepts (request, response, body) and returns a stringified dictionary ie: json.dumps({"extra":"data"}) 
 ACTIVITYLOG_GET_EXTRA_DATA = 'testapp.models.make_extra_data'
+
+# any Python method that accepts (request) and returns a unique string that identifies the user by default the string is the userid salted with the SECRET_KEY setting
+ACTIVITYLOG_ANONYMIZATION_FUNCTION
+
+# any Python method that accepts (data) and returns a string value
+ACTIVITYLOG_ENCRYPTION_FUNCTION
 ```
 
 $ python manage.py migrate & python manage.py migrate --database=logs

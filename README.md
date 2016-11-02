@@ -24,9 +24,10 @@ INSTALLED_APPS = (
     'anonymized_activity_log',
 )
 
+#Putting ActivityLogMiddleware near the top
 MIDDLEWARE_CLASSES = (
-    ...
     'anonymized_activity_log.middleware.ActivityLogMiddleware',
+    ...
 )
 
 # For writing log to another DB
@@ -76,6 +77,16 @@ ACTIVITYLOG_ANONYMIZATION_FUNCTION
 # any Python method that accepts (data) and returns a string value
 ACTIVITYLOG_ENCRYPTION_FUNCTION
 ```
+
+$ python manage.py migrate & python manage.py migrate --database=logs
+
+If you use ACTIVITYLOG_AUTOCREATE_DB migrations to logs database 
+will be run automatically.
+
+
+Upgrade:
+
+$ pip install -U django-anonymized-activity-log
 
 $ python manage.py migrate & python manage.py migrate --database=logs
 

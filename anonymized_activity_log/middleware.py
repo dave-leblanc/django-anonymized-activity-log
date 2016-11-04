@@ -22,17 +22,24 @@ def get_ip_address(request):
 
 
 def get_extra_data(request, response, body):
-    # TODO: Make this setting more dynamic. Make it able to be a list
     if not conf.GET_EXTRA_DATA:
         return
-    return _load(conf.GET_EXTRA_DATA)(request, response, body)
+    if type(conf.GET_EXTRA_DATA) == str:
+        return _load(conf.GET_EXTRA_DATA)(request, response, body)
+    else:
+        result = {}
+        for f in conf.GET_EXTRA_DATA:
+            data = _load(f)(request, response, body)
+            result.update(data)
 
 
 def get_encryption_function():
     return _load(conf.ENCRYPTION_FUNCTION)
 
+
 def get_anonymization_function():
     return _load(conf.ANONYMIZATION_FUNCTION)
+
 
 class ActivityLogMiddleware:
     def process_request(self, request):
@@ -41,6 +48,8 @@ class ActivityLogMiddleware:
             x = True
         except DisallowedHost:
             return HttpResponseForbidden()
+
+    anonymization_function = get_anonymization_function()
 
     def process_response(self, request, response):
         the_record = self._get_log(request)
@@ -71,7 +80,7 @@ class ActivityLogMiddleware:
         if any(miss_log):
             return
 
-        user = get_anonymization_function()(request)
+        user = self.anonymization_function(request)
 
         if request.method in ('GET', 'POST'):
             request_vars = json.dumps(getattr(request, request.method).__dict__)
@@ -90,8 +99,8 @@ class ActivityLogMiddleware:
             request_ajax=request.is_ajax(),
             request_meta=request.META.__str__(),
         )
-        if hasattr(request,"session"):
-            activity_log.session_id=request.session.session_key,
+        if hasattr(request, "session"):
+            activity_log.session_id = request.session.session_key
         if hasattr(request, "user"):
             if request.user.is_authenticated():
                 activity_log.requestUser = request.user
@@ -106,11 +115,11 @@ class ActivityLogMiddleware:
             return None
 
     def process_view(self, request, view_func, view_args, view_kwargs):
-        # Fix the issue with the authorization request
         the_record = self._get_log(request)
+        args = {"args": view_args, "kwargs": view_kwargs}
         if the_record:
             the_record.view_function = view_func.__name__
             the_record.view_doc_string = view_func.__doc__
-            the_record.view_args = json.dumps(view_kwargs)
+            the_record.view_args = json.dumps(args)
 
             the_record.save()

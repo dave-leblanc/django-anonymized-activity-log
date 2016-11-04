@@ -68,14 +68,18 @@ ACTIVITYLOG_STATUSES = (200, )
 # URL substrings, which ignores
 ACTIVITYLOG_EXCLUDE_URLS = ('/admin/activity_log/activitylog', )
 
-# any Python method that accepts (request, response, body) and returns a stringified dictionary ie: json.dumps({"extra":"data"}) 
+# a string or array of strings pointing to a Python method that accepts (request, response, body) and returns a dictionary 
 ACTIVITYLOG_GET_EXTRA_DATA = 'testapp.models.make_extra_data'
 
-# any Python method that accepts (request) and returns a unique string that identifies the user by default the string is the userid salted with the SECRET_KEY setting
-ACTIVITYLOG_ANONYMIZATION_FUNCTION
+#Extra data function from sample app
+def make_extra_data(request, response, body):
+    return {"meta":str(request.META)}
 
-# any Python method that accepts (data) and returns a string value
-ACTIVITYLOG_ENCRYPTION_FUNCTION
+# any Python method that accepts (request) and returns a unique string that identifies the user by default the string is the userid salted with the SECRET_KEY setting
+ACTIVITYLOG_ANONYMIZATION_FUNCTION = 'anonymized_activity_log.anonymization.anonymize_user'
+ 
+# any Python method that accepts string and returns an envrypted string value
+ACTIVITYLOG_ENCRYPTION_FUNCTIO = 'anonymized_activity_log.crypto.sha256_hexdigest'
 ```
 
 $ python manage.py migrate & python manage.py migrate --database=logs

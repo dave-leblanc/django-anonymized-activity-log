@@ -44,4 +44,4 @@ if LOG_DB_KEY and not settings.DATABASES.get(LOG_DB_KEY):
 
 
 ANONYMIZATION_FUNCTION = getattr(settings, 'ACTIVITYLOG_ANONYMIZATION_FUNCTION', 'anonymized_activity_log.anonymization.anonymize_user')
-ENCRYPTION_FUNCTION = getattr(settings, 'ACTIVITYLOG_ENCRYPTION_FUNCTION', 'anonymized_activity_log.crypto.md5_hexdigest')
+ENCRYPTION_FUNCTION = getattr(settings, 'ACTIVITYLOG_ENCRYPTION_FUNCTION', 'anonymized_activity_log.crypto.sha256_hexdigest')
